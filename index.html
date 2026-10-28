@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — 6even Screen Translator</title>
+    <style>
+        :root {
+            --bg-color: #0b1118;
+            --card-bg: rgba(22, 32, 46, 0.85);
+            --border-color: rgba(255, 255, 255, 0.12);
+            --text-primary: #e6edf3;
+            --text-secondary: #91a2b5;
+            --accent-color: #3b82f6;
+            --accent-hover: #60a5fa;
+            --highlight-bg: rgba(59, 130, 246, 0.12);
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-color: #f4f7fb;
+                --card-bg: rgba(255, 255, 255, 0.94);
+                --border-color: rgba(0, 0, 0, 0.08);
+                --text-primary: #111827;
+                --text-secondary: #4b5563;
+                --accent-color: #2563eb;
+                --accent-hover: #1d4ed8;
+                --highlight-bg: rgba(37, 99, 235, 0.08);
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.68;
+            padding: 32px 16px;
+        }
+
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        .header-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 36px 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.22);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .app-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--highlight-bg);
+            color: var(--accent-color);
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            width: fit-content;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+        }
+
+        .meta {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .content-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px 36px;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.22);
+        }
+
+        .highlight-box {
+            background: var(--highlight-bg);
+            border-left: 4px solid var(--accent-color);
+            padding: 18px 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 0 0 28px;
+            font-size: 15px;
+        }
+
+        h2 {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 36px 0 14px;
+            color: var(--accent-hover);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2::before {
+            content: "•";
+            color: var(--accent-color);
+            font-size: 24px;
+        }
+
+        p {
+            margin-bottom: 16px;
+            font-size: 15px;
+            color: var(--text-primary);
+        }
+
+        ul {
+            margin: 12px 0 20px 24px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            font-size: 15px;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .contact-box {
+            background: var(--highlight-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 14px;
+        }
+
+        .contact-box p {
+            margin-bottom: 8px;
+        }
+
+        .contact-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .footer {
+            margin-top: 36px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        code {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-size: 13.5px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-card">
+        <span class="app-badge">6even Screen Translator (com.sixeven.translator)</span>
+        <h1>Privacy Policy</h1>
+        <div class="meta">Effective Date: October 29, 2026 • Last updated: October 2026</div>
+    </div>
+
+    <div class="content-card">
+        <div class="highlight-box">
+            <strong>Key Summary:</strong> 6even Screen Translator prioritizes your privacy. Screen frames and camera feeds are processed <strong>entirely in volatile device memory (RAM)</strong> using on-device optical character recognition (Google ML Kit). <strong>No screenshots, screen recordings, or camera images are ever saved to local storage or transmitted to any external servers.</strong>
+        </div>
+
+        <h2>1. Introduction</h2>
+        <p>This Privacy Policy explains how <strong>6even Screen Translator</strong> ("we", "our", or "the App", package: <code>com.sixeven.translator</code>) handles information when you use our screen and camera translation services on Android devices.</p>
+
+        <h2>2. Data Handling & On-Device Processing</h2>
+        <ul>
+            <li><strong>Screen Capture (MediaProjection API):</strong> When you activate Screen Translation, the App requests permission to capture the contents of your display via Android's MediaProjection framework. Captured frames are analyzed in temporary memory (RAM) solely to recognize on-screen text via Google ML Kit OCR. Frames are immediately closed and cleared after recognition. We do not record video, take permanent screenshots, or transmit screen images to any servers.</li>
+            <li><strong>Camera Translation (CAMERA Permission):</strong> When using Camera Mode, the live camera preview is processed locally in real time to locate and translate text. Camera frames are neither photographed, stored on the file system, nor transmitted over the internet.</li>
+            <li><strong>Text Translation Data:</strong> When using the local translation engine, text remains entirely on your device. When an optional cloud translation service is selected (such as Google Web, DeepL, or Gemini), only the recognized text strings are sent over secure HTTPS encryption to perform translation. No personal identifiers or images are attached.</li>
+            <li><strong>Translation History:</strong> Saved translations and favorites are stored strictly locally on your device in a private SQLite database. This data is never synchronized to cloud servers and can be cleared by you at any time with a single tap.</li>
+        </ul>
+
+        <h2>3. Android Permissions & Why We Need Them</h2>
+        <ul>
+            <li><strong>FOREGROUND_SERVICE_MEDIA_PROJECTION:</strong> Required by Android to run the screen capture session and display an active notification banner allowing you to stop translation at any moment.</li>
+            <li><strong>SYSTEM_ALERT_WINDOW ("Draw over other apps"):</strong> Required to display floating translation cards and the compact floating translation menu above other applications, games, and books.</li>
+            <li><strong>CAMERA:</strong> Required only when you explicitly open Camera Translation mode to point your camera at signs, documents, or physical books.</li>
+            <li><strong>POST_NOTIFICATIONS (Android 13+):</strong> Allows the App to display the persistent foreground service notification with instant Pause and Stop controls.</li>
+            <li><strong>INTERNET & ACCESS_NETWORK_STATE:</strong> Used to fetch translations when online translation engines are enabled and to serve ads via certified ad networks.</li>
+        </ul>
+
+        <h2>4. Advertising & Third-Party SDKs</h2>
+        <p>To keep core translation features accessible, the App integrates standard, privacy-compliant advertising networks (such as Google AdMob, Unity Ads, and AppLovin). These third-party SDKs may collect non-personal diagnostic data, device model, general country-level location, and the Google Advertising ID in accordance with Google Play Developer Policies and applicable privacy laws.</p>
+        <p>You can manage or reset your Advertising ID at any time in your Android system settings under <em>Settings → Google → Ads</em>.</p>
+
+        <h2>5. Children's Privacy</h2>
+        <p>Our App is not directed to children under 13 (or under 16 in the European Union). We do not knowingly collect personal information from children. If you believe we have inadvertently received personal information from a child, please contact us immediately so we can promptly delete it.</p>
+
+        <h2>6. Security & Data Retention</h2>
+        <p>Because we do not operate remote user account databases or upload your screen content, your translation content remains safely isolated on your physical device. We implement industry-standard cryptographic techniques (including HMAC validation and secure hardware monotonic clock verification) to protect local application settings from tampering.</p>
+
+        <h2>7. Changes to This Policy</h2>
+        <p>We may update this Privacy Policy from time to time to reflect product enhancements or changes in legal regulations. Any updates will be published on this page with a revised effective date.</p>
+
+        <h2>8. Contact Us</h2>
+        <p>If you have any questions, feedback, or concerns regarding this Privacy Policy or our data practices, please contact us:</p>
+        <div class="contact-box">
+            <p><strong>Application:</strong> 6even Screen Translator (<code>com.sixeven.translator</code>)</p>
+            <p><strong>Support & Privacy Email:</strong> <a href="mailto:888luck67evevevn888@gmail.com">888luck67evevevn888@gmail.com</a></p>
+        </div>
+    </div>
+
+    <div class="footer">
+        © 2026 6even Team. All rights reserved.
+    </div>
+</div>
+
+</body>
+</html>
