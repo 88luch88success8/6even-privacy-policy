@@ -1,0 +1,53 @@
+name: DeepL Health Check
+
+on:
+  schedule:
+    # Запуск каждый день в 08:00 утра по МСК (05:00 UTC)
+    - cron: '0 5 * * *'
+  workflow_dispatch: # Позволяет нажать кнопку "Run workflow" руками в любой момент
+
+jobs:
+  check-deepl:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Скачиваем репозиторий
+        uses: actions/checkout@v4
+
+      - name: Тестируем ответ DeepL
+        run: |
+          set -e
+          ENDPOINT=$(jq -r '.endpoint' deepl_rules.json)
+          USER_AGENT=$(jq -r '.userAgent' deepl_rules.json)
+          METHOD=$(jq -r '.rpcMethod // "LMT_handle_texts"' deepl_rules.json)
+          
+          NOW_MS=$(date +%s%3N)
+          TS=$(( NOW_MS - (NOW_MS % 1) + 1 ))
+          
+          echo "Тестируем $ENDPOINT с методом $METHOD..."
+          
+          PAYLOAD="{\"jsonrpc\":\"2.0\",\"method\":\"$METHOD\",\"params\":{\"texts\":[{\"text\":\"Hello\",\"requestAlternatives\":0}],\"splitting\":\"newlines\",\"lang\":{\"source_lang_user_selected\":\"EN\",\"target_lang\":\"RU\"},\"timestamp\":$TS,\"commonJobParams\":{\"wasSpoken\":false,\"transcribe_as\":\"\"}},\"id\":83920199}"
+          
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "$ENDPOINT" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -H "User-Agent: $USER_AGENT" \
+            -H "Origin: https://www.deepl.com" \
+            -H "Referer: https://www.deepl.com/" \
+            -d "$PAYLOAD")
+          
+          BODY=$(echo "$RESPONSE" | sed '$d')
+          CODE=$(echo "$RESPONSE" | tail -n1)
+          
+          echo "HTTP Код: $CODE"
+          echo "Ответ сервера: $BODY"
+          
+          if [ "$CODE" -ne 200 ]; then
+            echo "::error::DeepL вернул ошибку сети HTTP $CODE!"
+            exit 1
+          fi
+          
+          if echo "$BODY" | grep -qi -E "older version of deepl|старую версию deepl|update to the latest version|slow down please"; then
+            echo "::error::ОБНАРУЖЕН БАННЕР УСТАРЕВАНИЯ! DeepL заблокировал параметры."
+            exit 1
+          fi
+          
+          echo "УСПЕХ: DeepL перевел текст штатно!"
