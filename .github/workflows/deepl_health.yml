@@ -18,13 +18,7 @@ jobs:
           
           PAYLOAD_B64=$(jq -r '.payload // empty' deepl_rules.json)
           if [ -n "$PAYLOAD_B64" ]; then
-            CONFIG_JSON=$(python3 -c "
-import base64
-raw = base64.b64decode('$PAYLOAD_B64')
-key = b'6evenkey6888'
-dec = bytes([raw[i] ^ key[i % len(key)] for i in range(len(raw))]).decode('utf-8')
-print(dec)
-")
+            CONFIG_JSON=$(python3 -c "import base64; raw = base64.b64decode('$PAYLOAD_B64'); key = b'6evenkey6888'; print(bytes([raw[i] ^ key[i % len(key)] for i in range(len(raw))]).decode('utf-8'))")
           else
             CONFIG_JSON=$(cat deepl_rules.json)
           fi
@@ -53,4 +47,4 @@ print(dec)
             exit 1
           fi
           
-          echo "УСПЕХ: Зашифрованный конфиг успешно расшифрован и проверен!"
+          echo "УСПЕХ: Зашифрованный конфиг успешно расшифрован и проверен в DeepL!"
