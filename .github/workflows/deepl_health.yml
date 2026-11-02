@@ -13,12 +13,14 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Тестируем ответ DeepL
+        env:
+          SECRET_KEY: ${{ secrets.DEEPL_SECRET_KEY }}
         run: |
           set -e
           
           PAYLOAD_B64=$(jq -r '.payload // empty' deepl_rules.json)
           if [ -n "$PAYLOAD_B64" ]; then
-            CONFIG_JSON=$(python3 -c "import base64; raw = base64.b64decode('$PAYLOAD_B64'); key = b'6evenkey6888'; print(bytes([raw[i] ^ key[i % len(key)] for i in range(len(raw))]).decode('utf-8'))")
+            CONFIG_JSON=$(python3 -c "import os, base64; raw = base64.b64decode('$PAYLOAD_B64'); key = os.environ.get('SECRET_KEY', '').encode('utf-8'); print(bytes([raw[i] ^ key[i % len(key)] for i in range(len(raw))]).decode('utf-8'))")
           else
             CONFIG_JSON=$(cat deepl_rules.json)
           fi
@@ -47,4 +49,4 @@ jobs:
             exit 1
           fi
           
-          echo "УСПЕХ: Зашифрованный конфиг успешно расшифрован и проверен в DeepL!"
+          echo "УСПЕХ: Зашифрованный конфиг успешно расшифрован через GitHub Secrets и принят DeepL!"
