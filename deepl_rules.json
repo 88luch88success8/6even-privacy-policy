@@ -1,13 +1,11 @@
 {
-  "version": 2,
-  "endpoint": "https://www2.deepl.com/jsonrpc",
-  "rpcMethod": "LMT_handle_texts",
-  "protocolMode": "texts",
+  "version": 3,
+  "endpoint": "https://oneshot-free.www.deepl.com/v1/translate",
+  "rpcMethod": "POST",
+  "protocolMode": "oneshot",
   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
   "extraHeaders": {
-    "Accept-Language": "en-US,en;q=0.9,ru;q=0.8",
-    "Cache-Control": "no-cache",
-    "Pragma": "no-cache"
+    "Origin": "chrome-extension://cofdbpoegempjloogbagknkgphkieocn"
   },
   "customPayloadTemplate": "",
   "spacingModulo1": 13,
