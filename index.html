@@ -3,31 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy — Screen Translator</title>
+    <title>Privacy Policy — 6even Screen Translator</title>
     <style>
         :root {
-            --bg-color: #0b1118;
-            --card-bg: rgba(22, 32, 46, 0.85);
-            --border-color: rgba(255, 255, 255, 0.12);
-            --text-primary: #e6edf3;
-            --text-secondary: #91a2b5;
-            --accent-color: #3b82f6;
-            --accent-hover: #60a5fa;
-            --highlight-bg: rgba(59, 130, 246, 0.12);
-            --table-border: rgba(255, 255, 255, 0.1);
+            --bg-color: #0b0c0e;
+            --card-bg: rgba(18, 20, 24, 0.88);
+            --border-color: rgba(255, 255, 255, 0.10);
+            --text-primary: #f0f2f5;
+            --text-secondary: #9aa0a6;
+            --accent-color: #e5e7eb;
+            --accent-hover: #ffffff;
+            --highlight-bg: rgba(255, 255, 255, 0.05);
+            --table-border: rgba(255, 255, 255, 0.12);
+            --badge-bg: rgba(255, 255, 255, 0.08);
+            --badge-border: rgba(255, 255, 255, 0.14);
+            --link-color: #d1d5db;
         }
 
         @media (prefers-color-scheme: light) {
             :root {
-                --bg-color: #f4f7fb;
-                --card-bg: rgba(255, 255, 255, 0.94);
-                --border-color: rgba(0, 0, 0, 0.08);
+                --bg-color: #f6f7f9;
+                --card-bg: rgba(255, 255, 255, 0.96);
+                --border-color: rgba(0, 0, 0, 0.09);
                 --text-primary: #111827;
                 --text-secondary: #4b5563;
-                --accent-color: #2563eb;
-                --accent-hover: #1d4ed8;
-                --highlight-bg: rgba(37, 99, 235, 0.08);
-                --table-border: rgba(0, 0, 0, 0.1);
+                --accent-color: #111827;
+                --accent-hover: #000000;
+                --highlight-bg: rgba(0, 0, 0, 0.035);
+                --table-border: rgba(0, 0, 0, 0.09);
+                --badge-bg: rgba(0, 0, 0, 0.05);
+                --badge-border: rgba(0, 0, 0, 0.12);
+                --link-color: #1f2937;
             }
         }
 
@@ -55,10 +61,10 @@
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
+            border-radius: 18px;
             padding: 36px 32px;
             margin-bottom: 24px;
-            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.22);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.20);
             display: flex;
             flex-direction: column;
             gap: 12px;
@@ -68,9 +74,10 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: var(--highlight-bg);
+            background: var(--badge-bg);
+            border: 1px solid var(--badge-border);
             color: var(--accent-color);
-            padding: 6px 14px;
+            padding: 5px 14px;
             border-radius: 999px;
             font-size: 13px;
             font-weight: 600;
@@ -95,34 +102,35 @@
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
+            border-radius: 18px;
             padding: 40px 36px;
-            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.22);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.20);
         }
 
         .highlight-box {
             background: var(--highlight-bg);
-            border-left: 4px solid var(--accent-color);
+            border-left: 3px solid var(--accent-color);
             padding: 18px 20px;
-            border-radius: 0 12px 12px 0;
+            border-radius: 0 10px 10px 0;
             margin: 0 0 28px;
             font-size: 15px;
         }
 
         h2 {
-            font-size: 20px;
+            font-size: 19px;
             font-weight: 700;
             margin: 36px 0 14px;
-            color: var(--accent-hover);
+            color: var(--accent-color);
             display: flex;
             align-items: center;
             gap: 10px;
+            letter-spacing: -0.2px;
         }
 
         h2::before {
             content: "•";
-            color: var(--accent-color);
-            font-size: 24px;
+            color: var(--text-secondary);
+            font-size: 22px;
         }
 
         p {
@@ -161,7 +169,7 @@
 
         th {
             background-color: var(--highlight-bg);
-            color: var(--accent-hover);
+            color: var(--text-primary);
             font-weight: 600;
         }
 
@@ -169,12 +177,12 @@
             background: var(--highlight-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 20px;
+            padding: 18px 20px;
             margin-top: 14px;
         }
 
         .contact-box p {
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .contact-box p:last-child {
@@ -189,19 +197,21 @@
         }
 
         a {
-            color: var(--accent-color);
-            text-decoration: none;
+            color: var(--link-color);
+            text-decoration: underline;
+            text-underline-offset: 3px;
             font-weight: 500;
         }
 
         a:hover {
-            text-decoration: underline;
+            color: var(--accent-hover);
         }
 
         code {
-            background: rgba(0, 0, 0, 0.2);
+            background: var(--highlight-bg);
+            border: 1px solid var(--border-color);
             padding: 2px 6px;
-            border-radius: 6px;
+            border-radius: 5px;
             font-size: 13.5px;
             font-family: monospace;
         }
@@ -211,7 +221,7 @@
 
 <div class="container">
     <div class="header-card">
-        <span class="app-badge">Screen & Camera Translator</span>
+        <span class="app-badge">6even Screen Translator</span>
         <h1>Privacy Policy</h1>
         <div class="meta">Effective Date: October 29, 2026 • Last updated: November 2026</div>
     </div>
@@ -222,7 +232,7 @@
         </div>
 
         <h2>1. Overview</h2>
-        <p>This Privacy Policy outlines how the application handles information when you use screen, comic, game, and camera translation services on Android devices. The app operates under strict privacy-preserving principles, ensuring user content remains secure and locally confined.</p>
+        <p>This Privacy Policy outlines how <strong>6even Screen Translator</strong> handles information when you use screen, comic, game, and camera translation services on Android devices. The app operates under strict privacy-preserving principles, ensuring user content remains secure and locally confined.</p>
 
         <h2>2. Data Processing & Storage</h2>
         <ul>
@@ -306,7 +316,7 @@
     </div>
 
     <div class="footer">
-        © 2026 Screen Translator. All rights reserved.
+        © 2026 6even Screen Translator. All rights reserved.
     </div>
 </div>
 
