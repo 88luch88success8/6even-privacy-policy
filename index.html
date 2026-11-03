@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy & Data Safety — 6even Screen Translator</title>
+    <title>Privacy Policy — Screen Translator</title>
     <style>
         :root {
             --bg-color: #0b1118;
@@ -46,7 +46,7 @@
         }
 
         .container {
-            max-width: 880px;
+            max-width: 860px;
             margin: 0 auto;
         }
 
@@ -61,7 +61,7 @@
             box-shadow: 0 12px 36px rgba(0, 0, 0, 0.22);
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 12px;
         }
 
         .app-badge {
@@ -103,3 +103,212 @@
         .highlight-box {
             background: var(--highlight-bg);
             border-left: 4px solid var(--accent-color);
+            padding: 18px 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 0 0 28px;
+            font-size: 15px;
+        }
+
+        h2 {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 36px 0 14px;
+            color: var(--accent-hover);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2::before {
+            content: "•";
+            color: var(--accent-color);
+            font-size: 24px;
+        }
+
+        p {
+            margin-bottom: 16px;
+            font-size: 15px;
+            color: var(--text-primary);
+        }
+
+        ul {
+            margin: 12px 0 20px 24px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            font-size: 15px;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        th, td {
+            padding: 12px 14px;
+            border: 1px solid var(--table-border);
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--highlight-bg);
+            color: var(--accent-hover);
+            font-weight: 600;
+        }
+
+        .contact-box {
+            background: var(--highlight-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 14px;
+        }
+
+        .contact-box p {
+            margin-bottom: 8px;
+        }
+
+        .contact-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .footer {
+            margin-top: 36px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        code {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-size: 13.5px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-card">
+        <span class="app-badge">Screen & Camera Translator</span>
+        <h1>Privacy Policy</h1>
+        <div class="meta">Effective Date: October 29, 2026 • Last updated: November 2026</div>
+    </div>
+
+    <div class="content-card">
+        <div class="highlight-box">
+            <strong>Key Summary:</strong> Your privacy is our highest priority. Screen frames and camera feeds are processed <strong>entirely in volatile device memory (RAM)</strong> using on-device optical character recognition. <strong>No screenshots, screen recordings, or camera images are ever saved to storage or transmitted to external servers.</strong>
+        </div>
+
+        <h2>1. Overview</h2>
+        <p>This Privacy Policy outlines how the application handles information when you use screen, comic, game, and camera translation services on Android devices. The app operates under strict privacy-preserving principles, ensuring user content remains secure and locally confined.</p>
+
+        <h2>2. Data Processing & Storage</h2>
+        <ul>
+            <li><strong>Screen Translation (MediaProjection):</strong> When screen translation is activated, the app captures on-screen visual content solely to perform real-time optical character recognition (OCR). Captured image frames exist only in volatile RAM during text recognition and are immediately released. No screen captures or video recordings are written to device storage or sent to external servers.</li>
+            <li><strong>Camera Translation:</strong> Live camera preview is analyzed strictly on-device in real time to locate and extract text. Camera frames are not photographed, stored on the file system, or transmitted over the internet.</li>
+            <li><strong>Text Translation Data:</strong> When on-device translation is selected, text processing remains entirely offline on your device. When optional cloud translation services are enabled, only the recognized text strings are transmitted over secure HTTPS (TLS 1.3) connections to complete translation. No personal identifiers or images are attached.</li>
+            <li><strong>Local Translation History:</strong> Saved translations and favorites are stored strictly locally in a private database on your device. This data is never synchronized to cloud servers and can be deleted by you at any time with a single tap.</li>
+            <li><strong>User API Keys (BYOK):</strong> Any personal API keys provided by the user are stored locally in the hardware-backed Android KeyStore with AES-256-GCM encryption and are used exclusively for direct requests to the respective provider.</li>
+        </ul>
+
+        <h2>3. Android Permissions</h2>
+        <ul>
+            <li><strong>FOREGROUND_SERVICE & FOREGROUND_SERVICE_MEDIA_PROJECTION:</strong> Required by Android to run the screen capture session and display an ongoing notification with quick Pause and Stop controls.</li>
+            <li><strong>SYSTEM_ALERT_WINDOW ("Display over other apps"):</strong> Required to display floating translation cards and controls over games, comics, and applications.</li>
+            <li><strong>CAMERA:</strong> Required only when using the Camera Translation feature to translate text from physical documents or signs.</li>
+            <li><strong>POST_NOTIFICATIONS:</strong> Used to display the persistent foreground service notification while translation is active.</li>
+            <li><strong>INTERNET:</strong> Used to download offline language models, query cloud translation services (when selected), and display advertising.</li>
+        </ul>
+
+        <h2>4. Advertising & Analytics</h2>
+        <p>To provide core translation services free of charge, the application integrates certified third-party advertising networks and analytics partners (such as Google AdMob and other certified ad platforms). These partners may collect and process non-personal diagnostic information, device specifications, approximate country-level location, and the Google Advertising ID (GAID) in accordance with Google Play Developer Policies and applicable privacy regulations.</p>
+        <p>You can manage, opt out of personalized ads, or reset your Advertising ID at any time in Android settings: <em>Settings → Google → Ads</em>.</p>
+
+        <h2>5. Google Play Data Safety Summary</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Data Category</th>
+                    <th>Collected</th>
+                    <th>Shared</th>
+                    <th>Processing</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Photos & Videos</strong></td>
+                    <td>No</td>
+                    <td>No</td>
+                    <td>Ephemeral in RAM only</td>
+                    <td>Real-time screen & camera OCR</td>
+                </tr>
+                <tr>
+                    <td><strong>Text Content</strong></td>
+                    <td>No</td>
+                    <td>Yes (Only during cloud translation)</td>
+                    <td>Encrypted via HTTPS (TLS)</td>
+                    <td>App functionality (Translation)</td>
+                </tr>
+                <tr>
+                    <td><strong>Device ID (GAID)</strong></td>
+                    <td>Yes</td>
+                    <td>Yes (Certified Ad Partners)</td>
+                    <td>Managed by Google Play Services</td>
+                    <td>Advertising & Analytics</td>
+                </tr>
+                <tr>
+                    <td><strong>Personal & Financial</strong></td>
+                    <td>No</td>
+                    <td>No</td>
+                    <td>None</td>
+                    <td>Not collected</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Children's Privacy</h2>
+        <p>The application is not directed toward children under 13 years of age (or under 16 in the European Union). We do not knowingly collect personal information from children.</p>
+
+        <h2>7. User Rights & Data Deletion</h2>
+        <p>Because we do not maintain remote user accounts, your translation data remains entirely on your device. You can permanently erase all local translation history at any time using the <em>Clear History</em> button inside the app, or by clearing application storage in system settings.</p>
+
+        <h2>8. Changes to This Policy</h2>
+        <p>We may update this Privacy Policy periodically to reflect service enhancements or legal requirements. Updated versions will be posted to this page with an updated effective date.</p>
+
+        <h2>9. Contact Us</h2>
+        <p>For any questions or feedback regarding this Privacy Policy, please contact:</p>
+        <div class="contact-box">
+            <p><strong>Support & Privacy Email:</strong> <a href="mailto:888luck67evevevn888@gmail.com">888luck67evevevn888@gmail.com</a></p>
+        </div>
+    </div>
+
+    <div class="footer">
+        © 2026 Screen Translator. All rights reserved.
+    </div>
+</div>
+
+</body>
+</html>
