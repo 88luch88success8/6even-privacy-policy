@@ -2,14 +2,12 @@ name: DeepL & Translation Engines Health Check
 
 on:
   schedule:
-    # Запуск каждые 6 часов (00:00, 06:00, 12:00, 18:00 UTC)
     - cron: '0 */6 * * *'
   push:
     paths:
       - 'deepl_rules.json'
       - '.github/workflows/check_engine.yml'
   workflow_dispatch:
-    # Позволяет запускать проверку вручную одной кнопкой в интерфейсе GitHub
 
 jobs:
   check-engines:
@@ -34,166 +32,114 @@ jobs:
           import os
           import sys
           import time
-          import random
           import urllib.request
           import urllib.parse
           import urllib.error
 
-          print("=== 6even Screen Translator: Engine Health Check ===")
+          print("=== 6even Screen Translator: DeepL Web Verification ===")
 
-          # 1. Загрузка параметров из deepl_rules.json
           rules_path = "deepl_rules.json"
           if not os.path.exists(rules_path):
-              print(f"::error::Файл {rules_path} не найден в корне репозитория!")
+              print(f"::error::Файл {rules_path} не найден!")
               sys.exit(1)
 
           with open(rules_path, "r", encoding="utf-8") as f:
               config = json.load(f)
 
-          version = config.get("version", 1)
-          endpoint = config.get("endpoint", "https://www2.deepl.com/jsonrpc")
-          rpc_method = config.get("rpcMethod", "LMT_handle_texts")
-          protocol_mode = config.get("protocolMode", "texts")
-          user_agent = config.get("userAgent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
-          mod1 = config.get("spacingModulo1", 13)
-          mod2 = config.get("spacingModulo2", 29)
+          version = config.get("version", 5)
+          endpoint = config.get("endpoint", "https://oneshot-free.www.deepl.com/v1/translate")
+          protocol_mode = config.get("protocolMode", "oneshot")
+          user_agent = config.get("userAgent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
           extra_headers = config.get("extraHeaders", {})
-          blocked_phrases = [p.lower() for p in config.get("blockedPhrases", [])]
-
-          print(f"Loaded config: Version {version}, Method: {rpc_method}, Endpoint: {endpoint}")
 
           test_phrase = "Hello, world! 6even Screen Translator engine check."
-          target_lang = "RU"
+          target_lang = "ru"
 
-          # 2. Формирование точного payload в соответствии с DeepLWebEngine.kt
-          i_count = test_phrase.count("i") + 1
-          now_ms = int(time.time() * 1000)
-          timestamp = now_ms - (now_ms % i_count) + i_count
-          rpc_id = random.randint(10000000, 99999999)
-
-          payload_obj = {
-              "jsonrpc": "2.0",
-              "method": rpc_method,
-              "params": {
-                  "texts": [
-                      {
-                          "text": test_phrase,
-                          "requestAlternatives": 0
-                      }
-                  ],
-                  "splitting": "newlines",
-                  "lang": {
-                      "target_lang": target_lang,
-                      "source_lang_user_selected": "auto"
+          # Формирование запроса под активный протокол oneshot
+          if protocol_mode == "oneshot":
+              payload_bytes = json.dumps({
+                  "text": [test_phrase],
+                  "target_lang": target_lang.lower()
+              }, ensure_ascii=False).encode("utf-8")
+          else:
+              payload_bytes = json.dumps({
+                  "jsonrpc": "2.0",
+                  "method": config.get("rpcMethod", "LMT_handle_texts"),
+                  "params": {
+                      "texts": [{"text": test_phrase, "requestAlternatives": 0}],
+                      "splitting": "newlines",
+                      "lang": {"target_lang": target_lang.upper(), "source_lang_user_selected": "auto"},
+                      "timestamp": int(time.time() * 1000)
                   },
-                  "timestamp": timestamp,
-                  "commonJobParams": {
-                      "wasSpoken": False,
-                      "transcribe_as": ""
-                  }
-              },
-              "id": rpc_id
-          }
+                  "id": 12345678
+              }, ensure_ascii=False).encode("utf-8")
 
-          raw_body = json.dumps(payload_obj, ensure_ascii=False)
-
-          # Применение алгоритмического сдвига пробелов (spacing modulo)
-          if (rpc_id + 3) % mod1 == 0 or (rpc_id + 5) % mod2 == 0:
-              raw_body = raw_body.replace('"method": "', '"method" : "')
-
-          req_headers = {
+          headers = {
               "Content-Type": "application/json; charset=utf-8",
               "Accept": "*/*",
-              "Origin": "https://www.deepl.com",
-              "Referer": "https://www.deepl.com/",
               "User-Agent": user_agent
           }
-          req_headers.update(extra_headers)
+          headers.update(extra_headers)
 
-          # 3. Отправка запроса к DeepL
           deepl_ok = False
+          deepl_text = ""
           deepl_status = "UNKNOWN"
-          deepl_result_text = ""
-          deepl_latency = 0
+          latency = 0
 
           t0 = time.time()
           try:
-              req = urllib.request.Request(endpoint, data=raw_body.encode("utf-8"), headers=req_headers, method="POST")
-              with urllib.request.urlopen(req, timeout=8) as response:
-                  deepl_latency = int((time.time() - t0) * 1000)
-                  body = response.read().decode("utf-8")
+              req = urllib.request.Request(endpoint, data=payload_bytes, headers=headers, method="POST")
+              with urllib.request.urlopen(req, timeout=10) as resp:
+                  latency = int((time.time() - t0) * 1000)
+                  body = resp.read().decode("utf-8")
                   data = json.loads(body)
 
-                  # Проверка на наличие депрекаций в ответе
-                  body_lower = body.lower()
-                  is_deprecated = any(phrase in body_lower for phrase in blocked_phrases)
+                  if "translations" in data and len(data["translations"]) > 0:
+                      deepl_text = data["translations"][0].get("text", "").strip()
+                  elif "result" in data and "texts" in data["result"]:
+                      deepl_text = data["result"]["texts"][0].get("text", "").strip()
 
-                  if is_deprecated:
-                      deepl_status = "DEPRECATED (Banner detected in body)"
-                      print(f"::warning::DeepL вернул баннер устаревания: {body[:200]}")
+                  if deepl_text:
+                      deepl_ok = True
+                      deepl_status = f"OPERATIONAL ({resp.status} OK)"
+                      print(f"[SUCCESS] DeepL Web перевел за {latency}ms: '{deepl_text}'")
                   else:
-                      texts = data.get("result", {}).get("texts", [])
-                      if texts and "text" in texts[0]:
-                          deepl_result_text = texts[0]["text"].strip()
-                          deepl_ok = True
-                          deepl_status = "OPERATIONAL (200 OK)"
-                          print(f"[SUCCESS] DeepL Web ответил за {deepl_latency}ms: '{deepl_result_text}'")
-                      else:
-                          deepl_status = "MALFORMED_RESPONSE"
-                          print(f"::warning::DeepL вернул ответ без массива texts: {body[:200]}")
+                      deepl_status = "EMPTY_RESULT"
           except urllib.error.HTTPError as e:
-              deepl_latency = int((time.time() - t0) * 1000)
-              deepl_status = f"HTTP {e.code} ({e.reason})"
-              err_body = e.read().decode("utf-8", errors="ignore")
-              print(f"::error::DeepL HTTP Error {e.code}: {err_body[:250]}")
+              latency = int((time.time() - t0) * 1000)
+              deepl_status = f"HTTP {e.code}"
+              print(f"::error::DeepL вернул ошибку {e.code}")
           except Exception as e:
-              deepl_latency = int((time.time() - t0) * 1000)
-              deepl_status = f"NETWORK_ERROR: {str(e)}"
-              print(f"::error::Ошибка соединения с DeepL: {e}")
+              deepl_status = f"ERROR: {str(e)}"
+              print(f"::error::Сетевая ошибка DeepL: {e}")
 
-          # 4. Проверка резервного каскада (Google Translate Web API)
+          # Проверка Google Web Fallback
           google_ok = False
+          google_text = ""
           google_latency = 0
-          google_result = ""
           try:
               t1 = time.time()
               g_url = f"https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=ru&dt=t&q={urllib.parse.quote(test_phrase)}"
-              g_req = urllib.request.Request(g_url, headers={"User-Agent": user_agent})
-              with urllib.request.urlopen(g_req, timeout=5) as g_resp:
+              with urllib.request.urlopen(urllib.request.Request(g_url, headers={"User-Agent": user_agent}), timeout=5) as g_resp:
                   google_latency = int((time.time() - t1) * 1000)
                   g_data = json.loads(g_resp.read().decode("utf-8"))
-                  if g_data and len(g_data) > 0 and len(g_data[0]) > 0:
-                      google_result = g_data[0][0][0]
-                      google_ok = True
-                      print(f"[SUCCESS] Резервный Google Web ответил за {google_latency}ms: '{google_result}'")
-          except Exception as e:
-              print(f"::warning::Резервный Google Web недоступен: {e}")
+                  google_text = g_data[0][0][0]
+                  google_ok = True
+          except Exception:
+              pass
 
-          # 5. Формирование отчета в GitHub Step Summary
-          summary_file = os.environ.get("GITHUB_STEP_SUMMARY")
-          if summary_file:
-              with open(summary_file, "a", encoding="utf-8") as s:
+          summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+          if summary_path:
+              with open(summary_path, "a", encoding="utf-8") as s:
                   s.write("## 🌐 6even Screen Translator: Engine Health Report\n\n")
-                  s.write(f"**Версия конфигурации (`deepl_rules.json`):** `v{version}`  \n")
-                  s.write(f"**Тестовая фраза:** *\"{test_phrase}\"*\n\n")
+                  s.write(f"**Версия правил (`deepl_rules.json`):** `v{version}` (`mode: {protocol_mode}`)\n\n")
                   s.write("| Движок перевода | Статус | Задержка | Результат перевода |\n")
                   s.write("| :--- | :---: | :---: | :--- |\n")
-                  
-                  deepl_badge = "🟢 Работает" if deepl_ok else "🔴 Ошибка / Блок"
-                  s.write(f"| **DeepL Web (`{rpc_method}`)** | {deepl_badge} ({deepl_status}) | `{deepl_latency} ms` | {deepl_result_text or '—'} |\n")
-                  
+                  deepl_badge = "🟢 Работает" if deepl_ok else "🔴 Ошибка"
+                  s.write(f"| **DeepL Web (`{protocol_mode}`)** | {deepl_badge} ({deepl_status}) | `{latency} ms` | {deepl_text or '—'} |\n")
                   google_badge = "🟢 Работает" if google_ok else "🔴 Ошибка"
-                  s.write(f"| **Google Web (Fallback)** | {google_badge} | `{google_latency} ms` | {google_result or '—'} |\n\n")
+                  s.write(f"| **Google Web (Fallback)** | {google_badge} | `{google_latency} ms` | {google_text or '—'} |\n\n")
 
-                  if not deepl_ok:
-                      s.write("> ⚠️ **Внимание:** Эндпоинт DeepL Web заблокирован или требует обновления заголовков. В мобильном приложении активен автоматический обход (0 мс Circuit-Breaker) на Microsoft / Google.\n")
-
-          # 6. Вердикт выполнения шага
           if not deepl_ok:
-              # Если DeepL упал, но Google работает — предупреждаем без падения всего CI,
-              # чтобы не ломать сборку GitHub Pages, но фиксировать алерт
-              print("::warning::DeepL Web не прошел проверку! Требуется внимание к правилам.")
               sys.exit(1)
-          else:
-              print("DeepL Web и каскад перевода полностью работоспособны.")
           EOF
