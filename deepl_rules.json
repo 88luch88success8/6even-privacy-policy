@@ -1,4 +1,20 @@
 {
   "version": 4,
-  "payload": "TUcTCwovOQgbGFZlEFhGQi8rA14ZChgAHTc5FVgKBjpXHkVBKHZdFFMVGksNMDtOA11bK0BRXEUzOU0UFElUFx48GwQBBBs7EAoQZhALbVMaRwYXASs5AhoAOTBWVRAMfTdXFEUNGRFMc3QUBgkGHlVVXEJ9Yhs8WR8fCQI+eVRbXFR3ZVlcUjAvSlF4MVZUXnFmWlU7HTEEBAkWJ24NWBYkBhUCOgEEFycdKx0FAQFxaw9RHi4+MSMTekEZBR86EndXVTQ3EFF1DQQKAzp5UEZdWm8cABwGfwtYF1cXH0pbbGFPRlpWcxBVSkItOXEUVwETFx19bBpXIwY2VVlcFGV6WhlEChsAQzouFRACBzZdXggZcDtWF1IHBgoLODMMBQYYMF1XUFc4M1caURUeDgc6OQIbTglzEFNbRDwtUAV1ChkJCjAhDzgFGipGVUEUZWkMXRQEAxEBGTcNGQ4VPFkSCEItLVwM"
+  "endpoint": "https://www2.deepl.com/jsonrpc",
+  "rpcMethod": "LMT_handle_texts",
+  "protocolMode": "texts",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+  "spacingModulo1": 13,
+  "spacingModulo2": 29,
+  "circuitCooldownMinutes": 15,
+  "extraHeaders": {
+    "Accept-Language": "en-US,en;q=0.9,ru;q=0.8",
+    "Cache-Control": "no-cache",
+    "Pragma": "no-cache"
+  },
+  "blockedPhrases": [
+    "older version of deepl",
+    "update to the latest version",
+    "slow down please"
+  ]
 }
