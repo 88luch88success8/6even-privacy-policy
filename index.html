@@ -223,7 +223,7 @@
     <div class="header-card">
         <span class="app-badge">6even Screen Translator</span>
         <h1>Privacy Policy</h1>
-        <div class="meta">Effective Date: October 29, 2026 • Last updated: November 2026</div>
+        <div class="meta">Effective Date: October 29, 2026 • Last updated: November 13, 2026</div>
     </div>
 
     <div class="content-card">
@@ -238,10 +238,11 @@
         <ul>
             <li><strong>Screen Translation (MediaProjection):</strong> When screen translation is activated, the app captures on-screen visual content solely to perform real-time optical character recognition (OCR) using on-device engines (Google ML Kit and Tesseract OCR). Captured image frames exist only in volatile RAM during text recognition and are immediately released. No screen captures or video recordings are written to device storage or sent to external servers.</li>
             <li><strong>Camera Translation:</strong> Live camera preview is analyzed strictly on-device in real time to locate and extract text. Camera frames are not photographed, stored on the file system, or transmitted over the internet.</li>
-            <li><strong>Text Translation Data:</strong> When on-device translation is selected, text processing remains entirely offline on your device. When optional cloud translation services are enabled, only the recognized text strings are transmitted over secure HTTPS (TLS 1.3) connections to complete translation. No personal identifiers or images are attached.</li>
+            <li><strong>Text Translation Data:</strong> By default, recognized text strings are translated via an online translation service (Google Translate web endpoint) over HTTPS (TLS). When you switch to the offline engine (Google ML Kit), translation runs 100% on-device with zero network transmission. Optional online and BYOK engines (Microsoft Translator, Yandex Translate, Naver Papago, DeepL, and Google Gemini Flash) receive strictly the recognized text strings over encrypted HTTPS connections; no screenshots, camera images, or personal account identifiers are attached.</li>
             <li><strong>On-Demand OCR & Translation Models:</strong> Core scripts (Latin, Cyrillic, Chinese, Japanese, Korean, and Devanagari) are recognized out of the box. When the user selects an additional script or offline language pack, the app downloads the corresponding static recognition or translation model (e.g., official Tesseract <code>.traineddata</code> or ML Kit packages) over HTTPS into private app storage. No personal data is transmitted during model downloads.</li>
             <li><strong>Local Translation History:</strong> Saved translations and favorites are stored strictly locally in a private database on your device. This data is never synchronized to cloud servers and can be deleted by you at any time with a single tap.</li>
             <li><strong>User API Keys (BYOK):</strong> Any personal API keys provided by the user are stored locally in the hardware-backed Android KeyStore with AES-256-GCM encryption and are used exclusively for direct requests to the respective provider.</li>
+            <li><strong>Local Anti-Fraud & Trial Integrity Marker:</strong> To prevent abuse of the one-time starter free trial and protect unlock timers against tampering, the app derives a one-way cryptographic device hash locally on-device (from Android <code>ANDROID_ID</code> and hardware DRM ID) and stores a minimal technical marker in app storage and Android's scoped <code>MediaStore</code> Downloads collection (<code>.sixeven</code>). This hash never leaves your device, is never linked to Google Advertising ID (GAID), and is never used for advertising or user tracking.</li>
         </ul>
 
         <h2>3. Android Permissions</h2>
@@ -250,12 +251,13 @@
             <li><strong>SYSTEM_ALERT_WINDOW ("Display over other apps"):</strong> Required to display floating translation cards and controls over games, comics, and applications.</li>
             <li><strong>CAMERA:</strong> Required only when using the Camera Translation feature to translate text from physical documents or signs.</li>
             <li><strong>POST_NOTIFICATIONS:</strong> Used to display the persistent foreground service notification while translation is active.</li>
-            <li><strong>INTERNET & ACCESS_NETWORK_STATE:</strong> Used to check network connectivity, download on-demand offline OCR and translation language models, query cloud translation services (when selected), and display advertising. The app does not request or use local network (LAN), location, contacts, or storage permissions.</li>
+            <li><strong>INTERNET & ACCESS_NETWORK_STATE:</strong> Used to check network connectivity, download on-demand offline OCR and translation language models, query selected online/cloud translation services, and load advertising.</li>
+            <li><strong>com.google.android.gms.permission.AD_ID:</strong> Used by Google Play Services / Google AdMob to access the resettable Google Advertising ID (subject to your UMP consent and system privacy settings). The app does not request or use broad external storage permissions, local network (LAN), location, or contacts permissions.</li>
         </ul>
 
         <h2>4. Advertising & Analytics</h2>
-        <p>To provide core translation services free of charge, the application integrates certified third-party advertising networks and analytics partners (such as Google AdMob and other certified ad platforms). These partners may collect and process non-personal diagnostic information, device specifications, approximate country-level location, and the Google Advertising ID (GAID) in accordance with Google Play Developer Policies and applicable privacy regulations.</p>
-        <p>You can manage, opt out of personalized ads, or reset your Advertising ID at any time in Android settings: <em>Settings → Google → Ads</em>.</p>
+        <p>To provide core translation services free of charge, the application integrates Google AdMob and Google User Messaging Platform (UMP) for GDPR/EEA consent management. AdMob may collect and process non-personal diagnostic information, device specifications, approximate country/coarse location derived from IP, and the Google Advertising ID (GAID) in accordance with Google Play Developer Policies and applicable privacy regulations.</p>
+        <p>You can manage, opt out of personalized ads, or reset your Advertising ID at any time in Android settings: <em>Settings → Google → Ads</em>, or via the in-app Privacy Options dialog when applicable in your region.</p>
 
         <h2>5. Google Play Data Safety Summary</h2>
         <table>
@@ -270,25 +272,39 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>Photos & Videos</strong></td>
+                    <td><strong>Photos & Videos (Screen / Camera Frames)</strong></td>
                     <td>No</td>
                     <td>No</td>
-                    <td>Ephemeral in RAM only</td>
-                    <td>Real-time screen & camera OCR</td>
+                    <td>Ephemeral in RAM only (OCR)</td>
+                    <td>Real-time on-device OCR</td>
                 </tr>
                 <tr>
-                    <td><strong>Text Content</strong></td>
+                    <td><strong>Text Content (Recognized Strings)</strong></td>
                     <td>No</td>
-                    <td>Yes (Only during cloud translation)</td>
-                    <td>Encrypted via HTTPS (TLS)</td>
+                    <td>Yes (Online / cloud translation engines)</td>
+                    <td>Ephemeral via HTTPS (TLS); 100% offline in ML Kit mode</td>
                     <td>App functionality (Translation)</td>
                 </tr>
                 <tr>
-                    <td><strong>Device ID (GAID)</strong></td>
+                    <td><strong>Google Advertising ID (GAID)</strong></td>
                     <td>Yes</td>
-                    <td>Yes (Certified Ad Partners)</td>
-                    <td>Managed by Google Play Services</td>
+                    <td>Yes (Google AdMob)</td>
+                    <td>Managed by Google Play Services & UMP</td>
                     <td>Advertising & Analytics</td>
+                </tr>
+                <tr>
+                    <td><strong>Local Anti-Fraud Device Hash</strong></td>
+                    <td>On-device only</td>
+                    <td>No</td>
+                    <td>One-way local HMAC-SHA256 & MediaStore marker</td>
+                    <td>Fraud prevention & security (Starter trial integrity)</td>
+                </tr>
+                <tr>
+                    <td><strong>App Diagnostics (AdMob SDK)</strong></td>
+                    <td>Yes</td>
+                    <td>Yes (Google AdMob)</td>
+                    <td>Processed by Google AdMob SDK</td>
+                    <td>Analytics, Fraud Prevention & Crash Diagnostics</td>
                 </tr>
                 <tr>
                     <td><strong>Personal & Financial</strong></td>
